@@ -1,0 +1,35 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+      - "5050:5050"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=test
+      - DB_PASSWORD=test
+      - DB_NAME=test
+      - IPINFO_TOKEN=${IPINFO_TOKEN}
+    depends_on:
+      db:
+        condition: service_healthy
+  
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=test
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s       # Check every 5 seconds
+      timeout: 5s        # Give the check 5 seconds to pass
+      retries: 5         # Retry 5 times before considering the service unhealthy
+      start_period: 30s  # Give the container 30 seconds to start up before checking
+
+volumes:
+  postgres_data:
