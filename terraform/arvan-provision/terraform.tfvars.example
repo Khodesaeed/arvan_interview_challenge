@@ -1,0 +1,4 @@
+api_key        = ""
+ssh_public_key =  ""
+region         = ""
+chosen_plan_id = ""
