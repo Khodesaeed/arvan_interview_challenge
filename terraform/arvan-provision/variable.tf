@@ -19,10 +19,10 @@ variable "chosen_name" {
 variable "chosen_plan_id" {
   type        = string
   description = "The chosen ID of plan"
-  default     = "g2-4-2-0"
+  default     = "g5-4-2-0"
 }
 
-variable "ssh_public_key" {
+variable "ssh_key_name" {
   type = string
 }
 

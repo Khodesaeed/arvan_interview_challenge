@@ -47,7 +47,7 @@ resource "arvan_abrak" "built_by_terraform" {
   }
   region       = var.region
   name         = "built-by-terraform-${count.index + 1}"
-  ssh_key_name = var.ssh_public_key
+  ssh_key_name = var.ssh_key_name
   count        = 3
   image_id     = local.chosen_image.id
   flavor_id    = local.selected_plan.id
@@ -64,6 +64,6 @@ output "vm_info" {
   description = "VM names and their primary IP addresses"
   value = {
     for vm in arvan_abrak.built_by_terraform :
-    vm.name => vm.networks[0].ip
+    vm.name => vm.networks[1].ip
   }
 }
