@@ -29,5 +29,4 @@ variable "ssh_public_key" {
 variable "api_key" {
   type = string
   sensitive = true
-#   default = "apikey a55b8cf4-7a6d-55a8-888e-eb1c8d98697f"
 }
