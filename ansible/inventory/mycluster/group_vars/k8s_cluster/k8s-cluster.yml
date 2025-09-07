@@ -10,10 +10,9 @@ cilium_enable_ipv6: false
 cilium_hubble_enabled: true
 
 # Custom Cilium config (passed into ConfigMap)
-# cilium_config_extra_vars:
-#   nodeIPAM.enabled: "true"
-#   defaultLBServiceIPAM: "nodeipam"
+cilium_config_extra_vars:
+  nodeIPAM.enabled: "true"
+  defaultLBServiceIPAM: "nodeipam"
 
-# cilium_host_network: true
+cilium_host_network: true
 
-cilium_operator_custom_args: ["--foo=bar", "--baz=qux"]
