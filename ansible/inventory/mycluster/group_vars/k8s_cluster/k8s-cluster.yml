@@ -1,0 +1,19 @@
+# Choose CNI plugin
+kube_network_plugin: cilium
+
+# Optional: disable others
+kube_network_plugin_multus: false
+
+# Cilium config overrides
+cilium_enable_ipv4: true
+cilium_enable_ipv6: false
+cilium_hubble_enabled: true
+
+# Custom Cilium config (passed into ConfigMap)
+# cilium_config_extra_vars:
+#   nodeIPAM.enabled: "true"
+#   defaultLBServiceIPAM: "nodeipam"
+
+# cilium_host_network: true
+
+cilium_operator_custom_args: ["--foo=bar", "--baz=qux"]

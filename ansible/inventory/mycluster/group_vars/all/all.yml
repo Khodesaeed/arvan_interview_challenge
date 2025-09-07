@@ -1,0 +1,4 @@
+download_run_once: false       # download once, then distribute
+download_localhost: false      # download on Ansible control machine
+download_force_cache: false    # reuse cached tarballs
+
