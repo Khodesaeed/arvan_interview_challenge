@@ -59,11 +59,3 @@ resource "arvan_abrak" "built_by_terraform" {
   ]
   security_groups = [data.arvan_security_groups.default_security_groups.groups[0].id]
 }
-
-output "vm_info" {
-  description = "VM names and their primary IP addresses"
-  value = {
-    for vm in arvan_abrak.built_by_terraform :
-    vm.name => vm.networks[1].ip
-  }
-}
