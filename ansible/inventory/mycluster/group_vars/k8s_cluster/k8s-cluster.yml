@@ -1,8 +1,14 @@
 # Choose CNI plugin
 kube_network_plugin: cilium
 
+cilium_kube_proxy_replacement: "true"
+cilium_k8s_service_host: 185.226.118.149
+cilium_k8s_service_port: 6443
 # Optional: disable others
 kube_network_plugin_multus: false
+
+kube_apiserver_cert_extra_sans:
+  - 185.226.118.149
 
 # Cilium config overrides
 cilium_enable_ipv4: true
@@ -11,8 +17,8 @@ cilium_hubble_enabled: true
 
 # Custom Cilium config (passed into ConfigMap)
 cilium_config_extra_vars:
-  nodeIPAM.enabled: "true"
-  defaultLBServiceIPAM: "nodeipam"
+  enable-node-ipam: "true"
+  default-lb-service-ipam: nodeipam
 
 cilium_host_network: true
 
