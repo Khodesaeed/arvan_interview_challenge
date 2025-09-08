@@ -1,6 +1,6 @@
 
-terraform/arvan-provision/.terraform/
-terraform/arvan-provision/*.tfstate
-terraform/arvan-provision/*.tfstate.*
-terraform/arvan-provision/terraform.tfvars
-terraform/arvan-provision/crash.log
+terraform/*/.terraform/
+terraform/*/*.tfstate
+terraform/*/*.tfstate.*
+terraform/*/terraform.tfvars
+terraform/*/crash.log
