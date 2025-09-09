@@ -6,7 +6,7 @@ metadata:
   name: {{ .Release.Name }}-go-api-dashboard
   labels:
     # This label is crucial. It tells the Grafana sidecar to find and provision this ConfigMap.
-    grafana-dashboard: "1"
+    grafana_dashboard: "1"
     app.kubernetes.io/managed-by: Helm
   annotations:
     # This annotation places the dashboard into a specific folder in Grafana's UI.
