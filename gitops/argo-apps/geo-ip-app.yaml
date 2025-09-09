@@ -1,20 +1,37 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: geo-ip-api
-#   namespace: argocd
-# spec:
-#   project: default
-#   source:
-#     repoURL: https://github.com/khodesaeed/arvan_interview_challenge.git/
-#     targetRevision: main
-#     path: app/helm
-#   destination:
-#     server: https://kubernetes.default.svc
-#     namespace: geo-ip-system 
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-#     syncOptions:
-#       - CreateNamespace=true
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: geo-ip-finder-app
+  namespace: argocd
+
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Khodesaeed/arvan_interview_challenge.git # Replace with your Git repository URL
+    targetRevision: HEAD
+    path: app/helm # The path to your Helm chart within the repository
+    helm:
+      valueFiles:
+        - values.yaml
+      # Optional: You can override values here or use a separate values file
+      values: |
+        image:
+          repository: khodesaeed/geo-ip-finder
+          tag: "latest"
+        env:
+          IPINFO_TOKEN: "your_ipinfo_token_here"
+        database:
+          clusterName: "geo-ip-finder-db"
+          instances: 1
+          storageSize: "1Gi"
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: geo-ip-app-system # The namespace where you want to deploy the application
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
