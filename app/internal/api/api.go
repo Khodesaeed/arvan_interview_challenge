@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/khodesaeed/arvan_interview_challenge/internal/db"
@@ -34,17 +35,28 @@ func (a *API) GetCountryHandler(w http.ResponseWriter, r *http.Request) {
 	// Start timer for latency metric
 	startTime := time.Now()
 	metrics.InflightRequests.WithLabelValues("/get_country", r.Method).Inc()
-	defer metrics.InflightRequests.WithLabelValues("/get_country", r.Method).Dec()
+	
+	// Create a variable to hold the HTTP status code
+	statusCode := http.StatusOK
+	
+	// Defer the metrics updates to run at the end of the function
+	defer func() {
+		metrics.InflightRequests.WithLabelValues("/get_country", r.Method).Dec()
+		metrics.RequestLatency.WithLabelValues("/get_country", r.Method, strconv.Itoa(statusCode)).Observe(time.Since(startTime).Seconds())
+		metrics.RequestTotal.WithLabelValues("/get_country", strconv.Itoa(statusCode)).Inc()
+	}()
 
 	// Get IP from query parameter
 	ipStr := r.URL.Query().Get("ip")
 	if ipStr == "" {
+		statusCode = http.StatusBadRequest
 		http.Error(w, `{"error": "IP parameter is missing"}`, http.StatusBadRequest)
 		return
 	}
 
 	// Validate IP
 	if !db.ValidateIP(ipStr) {
+		statusCode = http.StatusBadRequest
 		http.Error(w, `{"error": "Invalid IP address"}`, http.StatusBadRequest)
 		return
 	}
@@ -54,8 +66,6 @@ func (a *API) GetCountryHandler(w http.ResponseWriter, r *http.Request) {
 	if err == nil {
 		// Found in cache, return it
 		json.NewEncoder(w).Encode(map[string]string{"country": country})
-		metrics.RequestLatency.WithLabelValues("/get_country", r.Method).Observe(time.Since(startTime).Seconds())
-		metrics.RequestTotal.WithLabelValues("/get_country").Inc()
 		return
 	}
 
@@ -63,6 +73,7 @@ func (a *API) GetCountryHandler(w http.ResponseWriter, r *http.Request) {
 	info, err := a.IPInfo.GetIPInfo(net.ParseIP(ipStr))
 	if err != nil {
 		log.Printf("Error fetching IP info: %v", err)
+		statusCode = http.StatusInternalServerError
 		http.Error(w, `{"error": "something happened in the external API"}`, http.StatusInternalServerError)
 		return
 	}
@@ -78,8 +89,6 @@ func (a *API) GetCountryHandler(w http.ResponseWriter, r *http.Request) {
 	}()
 
 	json.NewEncoder(w).Encode(map[string]string{"country": country})
-	metrics.RequestLatency.WithLabelValues("/get_country", r.Method).Observe(time.Since(startTime).Seconds())
-	metrics.RequestTotal.WithLabelValues("/get_country").Inc()
 }
 
 // LiveHandler checks if the database connection is alive.

@@ -12,7 +12,7 @@ var (
 			Name: "http_requests_total",
 			Help: "Total number of HTTP requests.",
 		},
-		[]string{"path"},
+		[]string{"path", "status"},
 	)
 
 	// RequestLatency is a Histogram that tracks request latency.
@@ -22,7 +22,7 @@ var (
 			Help:    "Request latency in seconds.",
 			Buckets: prometheus.DefBuckets,
 		},
-		[]string{"path", "method"},
+		[]string{"path", "method", "status"},
 	)
 
 	// InflightRequests is a Gauge that tracks in-progress requests.
@@ -34,3 +34,7 @@ var (
 		[]string{"path", "method"},
 	)
 )
+
+func init() {
+	println("metrics package initialized")
+}
