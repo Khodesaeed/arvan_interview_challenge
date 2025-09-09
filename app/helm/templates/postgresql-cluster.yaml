@@ -15,15 +15,7 @@ spec:
       owner: {{ .Values.database.owner }}
       secret:
         name: {{ .Values.database.secretName }}
-  # This service template is for the primary instance.
-  # The name will be geo-ip-finder-db-rw.
+  # The managed services are handled automatically by the operator.
   managed:
     services:
       disabledDefaultServices: ["ro", "r"]
-      additional:
-        - selectorType: rw
-          serviceTemplate:
-            metadata:
-              name: {{ .Values.database.clusterName }}-rw
-            spec:
-              type: ClusterIP
