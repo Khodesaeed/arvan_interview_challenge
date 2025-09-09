@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "geo-ip-finder.labels" . | nindent 4 }}
     # This label is used by Prometheus to discover this ServiceMonitor
-    release: prometheus-stack
+    release: kube-prometheus-operator
 spec:
   selector:
     matchLabels:
