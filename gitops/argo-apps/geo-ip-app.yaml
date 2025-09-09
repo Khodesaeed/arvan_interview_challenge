@@ -13,17 +13,6 @@ spec:
     helm:
       valueFiles:
         - values.yaml
-      # Optional: You can override values here or use a separate values file
-      values: |
-        image:
-          repository: khodesaeed/geo-ip-finder
-          tag: "latest"
-        env:
-          IPINFO_TOKEN: "your_ipinfo_token_here"
-        database:
-          clusterName: "geo-ip-finder-db"
-          instances: 1
-          storageSize: "1Gi"
 
   destination:
     server: https://kubernetes.default.svc
