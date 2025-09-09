@@ -8,7 +8,7 @@ image:
   repository: khodesaeed/geo-ip-finder
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart version.
-  tag: "latest"
+  tag: "1.1.0"
 
 service:
   type: ClusterIP
