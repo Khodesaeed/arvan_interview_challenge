@@ -11,6 +11,6 @@ spec:
     matchLabels:
       {{- include "geo-ip-finder.selectorLabels" . | nindent 6 }}
   endpoints:
-    - port: http
+    - port: 8080
       path: {{ .Values.serviceMonitor.path }}
       interval: 15s
