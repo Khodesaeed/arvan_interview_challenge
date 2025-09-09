@@ -1,0 +1,18 @@
+{{ if .Values.dashboard.enabled }}
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: {{ .Release.Name }}-api-dashboard
+  namespace: {{ .Release.Namespace }}
+  labels:
+    grafana_dashboard: "1"
+spec:
+  # The `folder` field specifies the folder where the dashboard will be created.
+  # If a folder with this name doesn't exist, it will be created automatically.
+  # If this field is omitted, the dashboard will be placed in the "General" folder.
+  {{- if .Values.dashboard.folder }}
+  folder: {{ .Values.dashboard.folder | quote }}
+  {{- end }}
+  json: |
+    {{- .Values.dashboard.json | nindent 4 }}
+{{ end }}
