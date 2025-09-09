@@ -69,3 +69,28 @@ database:
   databaseName: "geo_ip_db"
   owner: "geo_ip_user"
   secretName: "geo-ip-finder-db-user-secret"
+
+# Autoscaling configuration
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
+# Resource requests and limits
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+# Pod and container security context
+podSecurityContext: {}
+securityContext: {}
+
+# Service account configuration
+serviceAccount:
+  create: true
+  name: ""
