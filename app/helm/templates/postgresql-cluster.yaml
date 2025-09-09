@@ -18,5 +18,5 @@ spec:
     initdb:
       database: {{ .Values.database.databaseName }}
       owner: {{ .Values.database.owner }}
-      secret:
-        name: {{ .Values.database.secretName  }}
+      # secret:
+      #   name: {{ .Values.database.secretName  }}
