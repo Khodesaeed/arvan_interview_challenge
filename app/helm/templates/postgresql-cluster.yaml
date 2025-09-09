@@ -19,4 +19,4 @@ spec:
       database: {{ .Values.database.databaseName }}
       owner: {{ .Values.database.owner }}
       secret:
-        name: {{ .Values.env.DB_USER_SECRET }}
+        name: {{ .Values.database.secretName  }}
