@@ -225,7 +225,7 @@ data:
                 "uid": "prometheus"
               },
               "expr": "histogram_quantile(0.99, sum(rate(request_latency_seconds_bucket[5m])) by (le, path))",
-              "legendFormat": "{{ "{{ path }} P99" }}",
+              "legendFormat": "{{ "{{ path }}" }} P99",
               "refId": "A"
             }
           ],
@@ -324,7 +324,7 @@ data:
                 "uid": "prometheus"
               },
               "expr": "histogram_quantile(0.50, sum(rate(request_latency_seconds_bucket[5m])) by (le, path))",
-              "legendFormat": "{{ "{{ path }} P50" }}",
+              "legendFormat": "{{ "{{ path }}" }} P50",
               "refId": "A"
             }
           ],
@@ -429,6 +429,68 @@ data:
           ],
           "title": "Inflight Requests",
           "type": "timeseries"
+        },
+        {
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "displayMode": "lcd"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 100
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 16
+          },
+          "id": 5,
+          "options": {
+            "fieldOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "defaults": {
+                "min": 0
+              },
+              "limit": 5,
+              "show": true
+            },
+            "gauge": {
+              "showThresholdLabels": false,
+              "showThresholdMarkers": true
+            },
+            "orientation": "auto"
+          },
+          "plugin-id": "gauge",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "expr": "sum by (path) (inprogress_requests)",
+              "refId": "A"
+            }
+          ],
+          "title": "In-Flight Requests Gauge",
+          "type": "gauge"
         }
       ],
       "schemaVersion": 37,
