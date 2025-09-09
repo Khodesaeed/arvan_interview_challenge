@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "geo-ip-finder.fullname" . }}
+  labels:
+    {{- include "geo-ip-finder.labels" . | nindent 4 }}
+    # This label is used by Prometheus to discover this ServiceMonitor
+    release: prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      {{- include "geo-ip-finder.selectorLabels" . | nindent 6 }}
+  endpoints:
+    - port: http
+      path: {{ .Values.serviceMonitor.path }}
+      interval: 15s

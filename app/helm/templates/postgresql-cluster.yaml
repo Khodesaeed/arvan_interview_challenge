@@ -1,0 +1,29 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Values.database.clusterName }}
+spec:
+  instances: {{ .Values.database.instances }}
+  storage:
+    size: {{ .Values.database.storageSize }}
+  # The following sections define how the application will connect to the database.
+  # The operator will create a secret with the database user and password.
+  # The service will expose the database endpoint.
+  bootstrap:
+    initdb:
+      database: {{ .Values.database.databaseName }}
+      owner: {{ .Values.database.owner }}
+      secret:
+        name: {{ .Values.database.secretName }}
+  # This service template is for the primary instance.
+  # The name will be geo-ip-finder-db-rw.
+  managed:
+    services:
+      disabledDefaultServices: ["ro", "r"]
+      additional:
+        - selectorType: rw
+          serviceTemplate:
+            metadata:
+              name: {{ .Values.database.clusterName }}-rw
+            spec:
+              type: ClusterIP

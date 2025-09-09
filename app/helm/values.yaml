@@ -1,0 +1,71 @@
+# Default values for geo-ip-finder.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: khodesaeed/geo-ip-finder
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart version.
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 5000
+
+# Environment variables for the application
+# Use this section to pass sensitive information from Kubernetes Secrets
+env:
+  IPINFO_TOKEN: "your_ipinfo_token_here"
+  DB_HOST: "geo-ip-finder-db-rw" # This is the service name of the CNPG cluster
+  DB_PORT: "5432"
+  DB_NAME: "geo_ip_db" # The database name defined in the CNPG Cluster
+  DB_USER_SECRET: "geo-ip-finder-db-user-secret" # The secret name created by CNPG
+  DB_USER_SECRET_KEY_USERNAME: "username"
+  DB_USER_SECRET_KEY_PASSWORD: "password"
+
+# Liveness and Readiness Probes for Kubernetes
+probes:
+  liveness:
+    enabled: true
+    path: "/live"
+    initialDelaySeconds: 15
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+  readiness:
+    enabled: true
+    path: "/ready"
+    initialDelaySeconds: 15
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+
+# ServiceMonitor for Prometheus Operator
+serviceMonitor:
+  enabled: true
+  path: "/metrics"
+  interval: 15s
+
+# Ingress for exposing the service
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: geo-ip.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Configuration for the CloudNativePG Cluster
+database:
+  clusterName: "geo-ip-finder-db"
+  instances: 1
+  storageSize: "1Gi"
+  databaseName: "geo_ip_db"
+  owner: "geo_ip_user"
+  secretName: "geo-ip-finder-db-user-secret"
