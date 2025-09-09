@@ -66,6 +66,8 @@ database:
   clusterName: "geo-ip-finder-db"
   instances: 1
   storageSize: "1Gi"
+  storageClass: longhorn
+  primaryUpdateStrategy: supervised
   databaseName: "geo_ip_db"
   owner: "geo_ip_user"
   secretName: "geo-ip-finder-db-user-secret"

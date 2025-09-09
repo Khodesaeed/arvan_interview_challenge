@@ -2,10 +2,15 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: {{ .Values.database.clusterName }}
+  namespace: {{ .Release.Namespace }}
 spec:
   instances: {{ .Values.database.instances }}
+  {{- if gt .Values.database.instances 1 }}
+  primaryUpdateStrategy: {{ .Values.database.primaryUpdateStrategy }}
+  {{- end }}
   storage:
     size: {{ .Values.database.storageSize }}
+    storageClass: {{ .Values.database.storageClass }}
   # The following sections define how the application will connect to the database.
   # The operator will create a secret with the database user and password.
   # The service will expose the database endpoint.
@@ -14,8 +19,4 @@ spec:
       database: {{ .Values.database.databaseName }}
       owner: {{ .Values.database.owner }}
       secret:
-        name: {{ .Values.database.secretName }}
-  # The managed services are handled automatically by the operator.
-  managed:
-    services:
-      disabledDefaultServices: ["ro", "r"]
+        name: {{ .Values.env.DB_USER_SECRET }}
