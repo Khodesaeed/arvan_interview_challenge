@@ -18,7 +18,7 @@ service:
 # Environment variables for the application
 # Use this section to pass sensitive information from Kubernetes Secrets
 env:
-  IPINFO_TOKEN: "your_ipinfo_token_here"
+  IPINFO_TOKEN: "aa419624904b0e"
   DB_HOST: "geo-ip-finder-db-rw" # This is the service name of the CNPG cluster
   DB_PORT: "5432"
   DB_NAME: "geo_ip_db" # The database name defined in the CNPG Cluster
