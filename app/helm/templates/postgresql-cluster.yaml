@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   instances: {{ .Values.database.instances }}
-  {{- if gt .Values.database.instances 1 }}
+  {{- if gt (int .Values.database.instances) 1 }}
   primaryUpdateStrategy: {{ .Values.database.primaryUpdateStrategy }}
   {{- end }}
   storage:
