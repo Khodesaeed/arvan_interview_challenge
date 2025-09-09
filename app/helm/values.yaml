@@ -22,7 +22,7 @@ env:
   DB_HOST: "geo-ip-finder-db-rw" # This is the service name of the CNPG cluster
   DB_PORT: "5432"
   DB_NAME: "geo_ip_db" # The database name defined in the CNPG Cluster
-  DB_USER_SECRET: "geo-ip-finder-db-user-secret" # The secret name created by CNPG
+  DB_USER_SECRET: "geo-ip-finder-db-app" # The secret name created by CNPG
   DB_USER_SECRET_KEY_USERNAME: "username"
   DB_USER_SECRET_KEY_PASSWORD: "password"
 
