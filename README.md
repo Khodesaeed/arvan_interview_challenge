@@ -45,7 +45,7 @@ Next, configure the provisioned virtual machines and set up the Kubernetes clust
 
 ```bash
 cd ansible
-ansible-playbook -i inventory.ini playbook.yml
+./kubespray.sh
 ```
 
 ### Step 3: Implement Storage Provider with Terraform
